@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Python 網路爬蟲教學範例網站">
-    <meta name="author" content="爬蟲教學講師">
-    <title>Python 網路爬蟲範例學院 - BeautifulSoup 實戰練習</title>
+    <meta name="description" content="7A 智慧病房護理站電子白板系統">
+    <meta name="author" content="護理部資訊小組">
+    <title>7A 病房護理站 - 即時病床與交班管理系統</title>
     <style>
         body {
             font-family: Arial, "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f7f9fa;
-            color: #333;
+            background-color: #f0f4f8;
+            color: #2c3e50;
         }
         header {
             text-align: center;
             padding: 20px;
-            background-color: #2b5b84;
+            background-color: #1e6091;
             color: white;
             border-radius: 8px;
         }
@@ -26,7 +26,7 @@
             margin: 20px auto;
         }
         .section-title {
-            border-left: 5px solid #2b5b84;
+            border-left: 5px solid #1e6091;
             padding-left: 10px;
             margin-top: 30px;
         }
@@ -35,20 +35,23 @@
             gap: 20px;
             flex-wrap: wrap;
         }
-        .course-card {
+        .bed-card {
             background: white;
-            border: 1px solid #ddd;
+            border: 1px solid #cfd9df;
             border-radius: 8px;
             padding: 15px;
             width: calc(50% - 30px);
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .course-card .price {
-            color: #e65100;
+        .bed-card .status {
+            color: #d90429;
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.05em;
         }
-        .course-card .tag {
+        .bed-card .status.stable {
+            color: #2b9348;
+        }
+        .bed-card .tag {
             display: inline-block;
             background: #e0f2fe;
             color: #0369a1;
@@ -63,17 +66,17 @@
             margin-top: 10px;
         }
         th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #cbd5e1;
             padding: 10px;
             text-align: left;
         }
         th {
-            background-color: #f1f5f9;
+            background-color: #e2eafc;
         }
         footer {
             text-align: center;
             margin-top: 40px;
-            color: #777;
+            color: #64748b;
             font-size: 0.9em;
         }
     </style>
@@ -81,80 +84,82 @@
 <body>
 
     <header>
-        <h1 id="page-title">Python 爬蟲實戰教學展示頁</h1>
-        <p id="site-desc">歡迎來到爬蟲練習專區，練習使用 Requests 與 BeautifulSoup 擷取網頁元素。</p>
+        <h1 id="page-title">7A 綜合病房護理站 - 即時資訊看板</h1>
+        <p id="site-desc">病患動態、特殊交班照護重點及主治醫師重要醫囑即時看板</p>
     </header>
 
     <main>
-        <!-- 練習區塊 1：課程清單（多物件卡片、class 查詢、屬性抓取） -->
+        <!-- 練習區塊 1：病床動態卡片（多物件卡片、class 查詢、自訂屬性抓取） -->
         <section>
-            <h2 class="section-title">熱門推薦課程</h2>
+            <h2 class="section-title">重點照護病床動態</h2>
             <div class="card-container">
-                <article class="course-card" data-id="101" data-category="python">
-                    <h3 class="course-name">Python 基礎與資料處理</h3>
-                    <p class="instructor">講師：<span class="name">陳老師</span></p>
-                    <p class="description">從零開始學習 Python 語法與資料結構。</p>
-                    <span class="tag">程式基礎</span>
-                    <p class="price">NT$ 1,200</p>
-                    <a class="course-link" href="https://example.com/courses/python-basic">查看詳情</a>
+                <article class="bed-card" data-bed-no="701-1" data-isolation="droplet">
+                    <h3 class="patient-id">病床：701-1 (陳*美 / F / 68歲)</h3>
+                    <p class="doctor">主治醫師：<span class="name">王醫師 (心臟內科)</span></p>
+                    <p class="primary-nurse">主責護理師：林護理師</p>
+                    <p class="nursing-note">診斷：CHF，請每 2 小時監測 I/O 並嚴格限水。</p>
+                    <span class="tag">跌倒高風險</span>
+                    <p class="status">照護等級：一級照護</p>
+                    <a class="chart-link" href="/emr/patients/70101">電子病歷與護理紀錄</a>
                 </article>
 
-                <article class="course-card" data-id="102" data-category="crawler">
-                    <h3 class="course-name">精通網路爬蟲與資料擷取</h3>
-                    <p class="instructor">講師：<span class="name">林老師</span></p>
-                    <p class="description">深入 Requests、BeautifulSoup 與正規表示式實戰。</p>
-                    <span class="tag">網路爬蟲</span>
-                    <p class="price">NT$ 2,500</p>
-                    <a class="course-link" href="https://example.com/courses/web-scraping">查看詳情</a>
+                <article class="bed-card" data-bed-no="702-2" data-isolation="contact">
+                    <h3 class="patient-id">病床：702-2 (李*雄 / M / 72歲)</h3>
+                    <p class="doctor">主治醫師：<span class="name">張醫師 (胸腔內科)</span></p>
+                    <p class="primary-nurse">主責護理師：陳護理師</p>
+                    <p class="nursing-note">診斷：Aspiration Pneumonia，鼻胃管餵食留意反抽。</p>
+                    <span class="tag">壓傷高風險</span>
+                    <p class="status stable">照護等級：二級照護</p>
+                    <a class="chart-link" href="/emr/patients/70202">電子病歷與護理紀錄</a>
                 </article>
             </div>
         </section>
 
-        <!-- 練習區塊 2：公告表格（table / tr / td 抓取） -->
+        <!-- 練習區塊 2：今日待辦排程與交班表格（table / tr / td 抓取） -->
         <section>
-            <h2 class="section-title">最新公告消息</h2>
-            <table id="announcement-table">
+            <h2 class="section-title">今日檢查與交班通報</h2>
+            <table id="handover-table">
                 <thead>
                     <tr>
-                        <th>日期</th>
-                        <th>標題</th>
-                        <th>類別</th>
+                        <th>時間</th>
+                        <th>床號與檢查項目</th>
+                        <th>主責護理師</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="date">2026-03-01</td>
-                        <td><a href="/news/1" class="news-link">新學期開課時間公告</a></td>
-                        <td>系統公告</td>
+                        <td class="schedule-time">09:30</td>
+                        <td><a href="/schedule/7011" class="task-link">701-1 心臟超音波 (Echocardiography) 檢查</a></td>
+                        <td>林護理師</td>
                     </tr>
                     <tr>
-                        <td class="date">2026-03-10</td>
-                        <td><a href="/news/2" class="news-link">Python 爬蟲實體工作坊開放報名</a></td>
-                        <td>活動消息</td>
+                        <td class="schedule-time">11:00</td>
+                        <td><a href="/schedule/7022" class="task-link">702-2 胸部 X 光 (CXR) 移動式攝影</a></td>
+                        <td>陳護理師</td>
                     </tr>
                     <tr>
-                        <td class="date">2026-03-20</td>
-                        <td><a href="/news/3" class="news-link">伺服器定期例行性維護通知</a></td>
-                        <td>系統公告</td>
+                        <td class="schedule-time">14:00</td>
+                        <td><a href="/schedule/7031" class="task-link">703-1 外科拔管後會診與傷口評估</a></td>
+                        <td>許護理師</td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- 練習區塊 3：無序清單（ul / li 抓取） -->
+        <!-- 練習區塊 3：護理規範清單（ul / li 抓取） -->
         <section>
-            <h2 class="section-title">本週學習重點</h2>
-            <ul id="learning-goals">
-                <li class="goal-item">掌握 HTTP GET 請求與 Status Code 判斷</li>
-                <li class="goal-item">使用 find() 與 find_all() 搜尋特定標籤</li>
-                <li class="goal-item">利用 CSS 選擇器（select / select_one）精準定位</li>
-                <li class="goal-item">提取標籤的屬性值（如 href、src、data 屬性）</li>
+            <h2 class="section-title">本班護理常規提醒</h2>
+            <ul id="clinical-reminders">
+                <li class="reminder-item">確實執行給藥「三讀五對」，落實條碼病人辨識</li>
+                <li class="reminder-item">高危險跌倒病人離床警報器設定及床欄確實拉起</li>
+                <li class="reminder-item">接觸隔離病房進出落實洗手與防護裝備穿脫 SOP</li>
+                <li class="reminder-item">白班與小夜班交班前完成急救車與管制藥品清點</li>
             </ul>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 爬蟲範例教學學院. All rights reserved.</p>
+        <p>&copy; 2026 護理部臨床資訊系統 (NIS). 僅限院內授權教學與展示使用.</p>
     </footer>
 
 </body>
