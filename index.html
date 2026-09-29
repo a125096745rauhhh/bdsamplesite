@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Python 網路爬蟲教學範例網站">
+    <meta name="author" content="爬蟲教學講師">
+    <title>Python 網路爬蟲範例學院 - BeautifulSoup 實戰練習</title>
+    <style>
+        body {
+            font-family: Arial, "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f9fa;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #2b5b84;
+            color: white;
+            border-radius: 8px;
+        }
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+        }
+        .section-title {
+            border-left: 5px solid #2b5b84;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        .card-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .course-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            width: calc(50% - 30px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .course-card .price {
+            color: #e65100;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .course-card .tag {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f1f5f9;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="page-title">Python 爬蟲實戰教學展示頁</h1>
+        <p id="site-desc">歡迎來到爬蟲練習專區，練習使用 Requests 與 BeautifulSoup 擷取網頁元素。</p>
+    </header>
+
+    <main>
+        <!-- 練習區塊 1：課程清單（多物件卡片、class 查詢、屬性抓取） -->
+        <section>
+            <h2 class="section-title">熱門推薦課程</h2>
+            <div class="card-container">
+                <article class="course-card" data-id="101" data-category="python">
+                    <h3 class="course-name">Python 基礎與資料處理</h3>
+                    <p class="instructor">講師：<span class="name">陳老師</span></p>
+                    <p class="description">從零開始學習 Python 語法與資料結構。</p>
+                    <span class="tag">程式基礎</span>
+                    <p class="price">NT$ 1,200</p>
+                    <a class="course-link" href="https://example.com/courses/python-basic">查看詳情</a>
+                </article>
+
+                <article class="course-card" data-id="102" data-category="crawler">
+                    <h3 class="course-name">精通網路爬蟲與資料擷取</h3>
+                    <p class="instructor">講師：<span class="name">林老師</span></p>
+                    <p class="description">深入 Requests、BeautifulSoup 與正規表示式實戰。</p>
+                    <span class="tag">網路爬蟲</span>
+                    <p class="price">NT$ 2,500</p>
+                    <a class="course-link" href="https://example.com/courses/web-scraping">查看詳情</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- 練習區塊 2：公告表格（table / tr / td 抓取） -->
+        <section>
+            <h2 class="section-title">最新公告消息</h2>
+            <table id="announcement-table">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>標題</th>
+                        <th>類別</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="date">2026-03-01</td>
+                        <td><a href="/news/1" class="news-link">新學期開課時間公告</a></td>
+                        <td>系統公告</td>
+                    </tr>
+                    <tr>
+                        <td class="date">2026-03-10</td>
+                        <td><a href="/news/2" class="news-link">Python 爬蟲實體工作坊開放報名</a></td>
+                        <td>活動消息</td>
+                    </tr>
+                    <tr>
+                        <td class="date">2026-03-20</td>
+                        <td><a href="/news/3" class="news-link">伺服器定期例行性維護通知</a></td>
+                        <td>系統公告</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 練習區塊 3：無序清單（ul / li 抓取） -->
+        <section>
+            <h2 class="section-title">本週學習重點</h2>
+            <ul id="learning-goals">
+                <li class="goal-item">掌握 HTTP GET 請求與 Status Code 判斷</li>
+                <li class="goal-item">使用 find() 與 find_all() 搜尋特定標籤</li>
+                <li class="goal-item">利用 CSS 選擇器（select / select_one）精準定位</li>
+                <li class="goal-item">提取標籤的屬性值（如 href、src、data 屬性）</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 爬蟲範例教學學院. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
